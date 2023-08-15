@@ -4,79 +4,85 @@ import '../models/food_models.dart';
 
 class FoodTile extends StatelessWidget {
   final Food food;
+  final void Function()? onTap;
+
   const FoodTile({
     super.key,
     required this.food,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 25.00),
-      padding: const EdgeInsets.all(25.00),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(20.00),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          // image
-          Image.asset(
-            food.imagePath,
-            height: 140.00,
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 25.00),
+        padding: const EdgeInsets.all(20.00),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(20.00),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // image
+            Image.asset(
+              food.imagePath,
+              height: 140.00,
+            ),
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // text
-              Text(
-                food.name,
-                style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 20.00,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // text
+                Text(
+                  food.name,
+                  style: GoogleFonts.dmSerifDisplay(
+                    fontSize: 20.00,
+                  ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 8.00,
-              ),
+                const SizedBox(
+                  height: 8.00,
+                ),
 
-              // price and rating
-              SizedBox(
-                width: 160,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // price
-                    Text(
-                      '\$' + food.price,
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.bold,
+                // price and rating
+                SizedBox(
+                  width: 160,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // price
+                      Text(
+                        '\$' + food.price,
+                        style: TextStyle(
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
 
-                    Row(
-                      children: [
-                        // rating
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow[800],
-                        ),
-                        Text(
-                          food.rating,
-                          style: TextStyle(color: Colors.grey[400]),
-                        ),
-                      ],
-                    )
-                  ],
+                      Row(
+                        children: [
+                          // rating
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow[800],
+                          ),
+                          Text(
+                            food.rating,
+                            style: TextStyle(color: Colors.grey[400]),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

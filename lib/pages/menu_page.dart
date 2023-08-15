@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shushi_app/components/food_tile.dart';
 import 'package:shushi_app/components/mybutton.dart';
 import 'package:shushi_app/models/food_models.dart';
+import 'package:shushi_app/pages/food_details.dart';
 import 'package:shushi_app/themes/colors.dart';
 
 class MenuPage extends StatefulWidget {
@@ -27,6 +28,17 @@ class _MenuPageState extends State<MenuPage> {
       rating: "4.5",
     ),
   ];
+
+  //navigation to food details page
+  void navigateToFoodDetails(int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FoodDetailsPage(
+            food: foodMenu[index],
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +140,7 @@ class _MenuPageState extends State<MenuPage> {
                 itemCount: foodMenu.length,
                 itemBuilder: (context, index) => FoodTile(
                   food: foodMenu[index],
+                  onTap: () => navigateToFoodDetails(index),
                 ),
               ),
             ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shushi_app/components/food_tile.dart';
 import 'package:shushi_app/components/mybutton.dart';
-import 'package:shushi_app/models/food_models.dart';
 import 'package:shushi_app/pages/food_details.dart';
 import 'package:shushi_app/themes/colors.dart';
+
+import '../models/shop_models.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -14,23 +16,12 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List foodMenu = [
-    Food(
-      name: "Salmon Sushi",
-      price: "25.00",
-      imagePath: "lib/images/salmon_sushi.png",
-      rating: "4.9",
-    ),
-    Food(
-      name: "Tuna Sushi",
-      price: "20.00",
-      imagePath: "lib/images/tuna.png",
-      rating: "4.5",
-    ),
-  ];
-
   //navigation to food details page
   void navigateToFoodDetails(int index) {
+    // get the shop and item details page
+    final shop = context.read<Shop>();
+    final foodMenu = shop.foodMenu;
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -42,20 +33,27 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    // get the shop and item details page
+    final shop = context.read<Shop>();
+    final foodMenu = shop.foodMenu;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey.shade800,
         elevation: 0,
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
-          color: Colors.grey[800],
         ),
-        title: Text(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/cartpage');
+              },
+              icon: const Icon(Icons.shopping_cart))
+        ],
+        title: const Text(
           "Tokyo Sushi",
-          style: TextStyle(
-            color: Colors.grey[800],
-          ),
         ),
       ),
       body: Padding(

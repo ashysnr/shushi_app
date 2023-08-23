@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shushi_app/components/mybutton.dart';
+import 'package:shushi_app/models/shop_models.dart';
 import 'package:shushi_app/themes/colors.dart';
-
 import '../models/food_models.dart';
 
 class FoodDetailsPage extends StatefulWidget {
@@ -23,18 +25,41 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
   //increament
   void increaseQty() {
     setState(() {
-      quantityCount++;
+      if (quantityCount < 10) {
+        quantityCount++;
+      }
     });
   }
 
   //descrease
   void decreaseQty() {
     setState(() {
-      quantityCount--;
+      if (quantityCount > 0) {
+        quantityCount--;
+      }
     });
   }
 
-  void addToCart() {}
+  void addToCart() {
+    // if item is in the cart
+    if (quantityCount > 0) {
+      // get access to the shop
+      final shop = context.read<Shop>();
+
+      // add to cart
+      shop.addToCart(widget.food, quantityCount);
+
+      // show alert dialog when item is added to cart
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(
+            widget.food.name + " was added to cart",
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +151,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                     //price
                     Text(
                       "\$" + widget.food.price,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18.00),
@@ -142,7 +167,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                           ),
                           child: IconButton(
                             onPressed: decreaseQty,
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.remove,
                               color: Colors.white,
                             ),
@@ -155,7 +180,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                           child: Center(
                             child: Text(
                               quantityCount.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.00,
@@ -172,7 +197,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                           ),
                           child: IconButton(
                             onPressed: increaseQty,
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.add,
                               color: Colors.white,
                             ),
